@@ -32,7 +32,7 @@ void ofxKorgNanoKontrol::setup(bool autoSet, int _portNum) {
     // GUI related
     ySpace = 170;
     yPosMult = 0;
-    yStartPos = 220;
+    yStartPos = 160;
     xPosMult = 0;
     
     
@@ -109,18 +109,23 @@ void ofxKorgNanoKontrol::setup(bool autoSet, int _portNum) {
 }
 
 
-void ofxKorgNanoKontrol::showGui(bool _showGui) {
+void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
     if(_showGui) {
         ofSetColor(0);
         
         ofPushMatrix();
-        ofTranslate(0, 0);
+        ofTranslate(_pos.x, _pos.y);
         
         ofFill();
-        ofSetColor(0, 0, 0, 100);
+        ofSetColor(0, 255, 0, 100);
         ofRect(0, 0, 548, 740);
+
+        float maxKnobs;
+
+        if (_extended) maxKnobs = 36;
+        else maxKnobs = 9;
         
-        for (int i = 0; i < 36; i++) {
+        for (int i = 0; i < maxKnobs; i++) {
             if(i > 8) {
                 yPosMult = 1;
                 xPosMult = 9;
@@ -140,19 +145,20 @@ void ofxKorgNanoKontrol::showGui(bool _showGui) {
             }
             
             // Sliders
-            
+            ofPushMatrix();
+            ofTranslate(_pos.x, _pos.y);
             ofSetColor(0);
-            ofDrawBitmapString("P." + ofToString(i+1), ofPoint(60 * (i - xPosMult) + 30, (yStartPos - 15) + ySpace*yPosMult));
+            ofDrawBitmapString("P." + ofToString(i+1), ofPoint(60 * (i - xPosMult) + 130, (yStartPos - 25) + ySpace*yPosMult));
             ofFill();
-            ofRect(60 * (i - xPosMult) + 30, (yStartPos - 30) + ySpace*yPosMult, 23, ofMap(-getVal(i),0,127,0,84));
+            ofRect(60 * (i - xPosMult) + 130, (yStartPos - 30) + ySpace*yPosMult - 20, 23, ofMap(-getVal(i),0,127,0,64));
             ofNoFill();
-            ofRect(60 * (i - xPosMult) + 30, (yStartPos - 30) + ySpace*yPosMult - 84, 23, 84);
+            ofRect(60 * (i - xPosMult) + 130, (yStartPos - 30) + ySpace*yPosMult - 84, 23, 64);
             ofFill();
             
             
             // Potentiometers
-            ofPushMatrix();
-            ofTranslate(13 + 60 * (i - xPosMult) + 30, (yStartPos - 134) + ySpace*yPosMult);
+
+            ofTranslate(13 + 60 * (i - xPosMult) + 130, (yStartPos - 134) + ySpace*yPosMult);
             
             ofRotate((ofMap(getVal(i,K_TYPE_POT), 0, 127, 0, 240)));
             
@@ -167,8 +173,10 @@ void ofxKorgNanoKontrol::showGui(bool _showGui) {
             
             
         }
+
+        ofTranslate(_pos.x, _pos.y);
         
-        for (int i = 0; i < 72; i++) {
+        for (int i = 0; i < 2 * maxKnobs; i++) {
             if(i > 17) {
                 yPosMult = 2;
                 xPosMult = 18;
@@ -195,9 +203,9 @@ void ofxKorgNanoKontrol::showGui(bool _showGui) {
                 ofNoFill();
             
             if(i % 2 == 0) {
-                ofRect(30 * (i - xPosMult) + 10,  (yStartPos - 30) + ySpace*yPosMult/2 - 84, 14, 14);
+                ofRect(30 * (i - xPosMult) + 110,  (yStartPos - 30) + ySpace*yPosMult/2 - 84, 14, 14);
             }else{
-                ofRect(30 * (i-1 - xPosMult) + 10,18 + (yStartPos - 30) + ySpace*yPosMult/2 - 84, 14, 14);
+                ofRect(30 * (i-1 - xPosMult) + 110,18 + (yStartPos - 30) + ySpace*yPosMult/2 - 84, 14, 14);
             }
             
             
@@ -205,75 +213,75 @@ void ofxKorgNanoKontrol::showGui(bool _showGui) {
             
         }
         
-        int yPosAdd = 24;
-        // Addional Buttons
-        if(getVal(0,K_TYPE_MENU_BUTTONS) > 0)
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(10, 10, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("prev", 20, yPosAdd);
+//        int yPosAdd = 24;
+//        // Addional Buttons
+//        if(getVal(0,K_TYPE_MENU_BUTTONS) > 0)
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(10, 10, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("prev", 20, yPosAdd);
         
         
-        if(getVal(1,K_TYPE_MENU_BUTTONS) > 0)
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(63, 10, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("play", 72, yPosAdd);
+//        if(getVal(1,K_TYPE_MENU_BUTTONS) > 0)
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(63, 10, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("play", 72, yPosAdd);
         
         
-        if(getVal(2,K_TYPE_MENU_BUTTONS) > 0)
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(116, 10, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("next", 125, yPosAdd);
+//        if(getVal(2,K_TYPE_MENU_BUTTONS) > 0)
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(116, 10, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("next", 125, yPosAdd);
         
-        if(getVal(3,K_TYPE_MENU_BUTTONS) > 0)
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(10, 33, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("loop", 20, yPosAdd + 23);
+//        if(getVal(3,K_TYPE_MENU_BUTTONS) > 0)
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(10, 33, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("loop", 20, yPosAdd + 23);
         
-        if(getVal(4,K_TYPE_MENU_BUTTONS) > 0)
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(63, 33, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("stop", 72, yPosAdd + 23);
+//        if(getVal(4,K_TYPE_MENU_BUTTONS) > 0)
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(63, 33, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("stop", 72, yPosAdd + 23);
         
-        if(getVal(5,K_TYPE_MENU_BUTTONS) > 0)
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(116, 33, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("rec", 128, yPosAdd + 23);
+//        if(getVal(5,K_TYPE_MENU_BUTTONS) > 0)
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(116, 33, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("rec", 128, yPosAdd + 23);
         
-        /*
-        if(getVal(6,MENU_BUTTONS))
-            ofFill();
-        else
-            ofNoFill();
-        ofSetColor(0);
-        ofRect(186, 10, 50, 20);
-        ofSetColor(255);
-        ofDrawBitmapString("scene", 191, yPosAdd);
-        ofPopMatrix();
-         */
+//        /*
+//        if(getVal(6,MENU_BUTTONS))
+//            ofFill();
+//        else
+//            ofNoFill();
+//        ofSetColor(0);
+//        ofRect(186, 10, 50, 20);
+//        ofSetColor(255);
+//        ofDrawBitmapString("scene", 191, yPosAdd);
+//        ofPopMatrix();
+//         */
     }else{
         return;
     }
