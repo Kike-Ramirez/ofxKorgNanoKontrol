@@ -58,7 +58,7 @@ void ofApp::draw(){
     ofDrawBitmapStringHighlight("Korg Nano Kontrol Version 1 - Press 'g' to show/hide gui", ofPoint(20,20));
     
     // Show/hide gui
-    nano.showGui(kontrolGui ? true : false);
+    nano.showGui(true, true, ofPoint(20, 40));
 }
 
 //--------------------------------------------------------------

@@ -109,7 +109,7 @@ void ofxKorgNanoKontrol::setup(bool autoSet, int _portNum) {
 }
 
 
-void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
+void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos, ofTrueTypeFont coolvetica_) {
 
     if(_showGui) {
         ofSetColor(0);
@@ -117,31 +117,27 @@ void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
         // Slider MAIN LAYER
 
         ofSetColor(0);
-        //ofDrawBitmapString("P." + ofToString(i+1), ofPoint(60 * (i - xPosMult) + 130, (yStartPos - 25) + ySpace*yPosMult));
         ofFill();
-        ofRect(0.01 * ofGetWidth(), 0.46 * ofGetHeight(), ofMap(getVal(0),0,127,0.01 * ofGetWidth(), 0.23 * ofGetWidth()), 0.08 * ofGetHeight());
+        ofRect(0.01 * ofGetWidth(), 0.41 * ofGetHeight(), ofMap(getVal(0),0,127,0.01 * ofGetWidth(), 0.23 * ofGetWidth()), 0.08 * ofGetHeight());
         ofNoFill();
-        ofRect(0.01 * ofGetWidth(), 0.46 * ofGetHeight(), 0.23 * ofGetWidth(), 0.08 * ofGetHeight());
+        ofRect(0.01 * ofGetWidth(), 0.41 * ofGetHeight(), 0.23 * ofGetWidth(), 0.08 * ofGetHeight());
 
         ofSetColor(255);
         ofNoFill();
-        ofRect(ofMap(getVal(0), 0, 127, 0.01 * ofGetWidth(), 0.23 * ofGetWidth()), 0.46 * ofGetHeight(), 0.008 * ofGetWidth(), 0.078 * ofGetHeight());
+        ofRect(ofMap(getVal(0), 0, 127, 0.01 * ofGetWidth(), 0.23 * ofGetWidth()), 0.41 * ofGetHeight(), 0.008 * ofGetWidth(), 0.078 * ofGetHeight());
         ofSetColor(0);
         ofFill();
-
-        ofSetColor(255,0,0, getVal(0) / 127.0 * 255);
-        ofNoFill();
-        ofSetLineWidth(4);
-        ofRect(0.01 * ofGetWidth(), 0.05 * ofGetHeight(), 0.23 * ofGetWidth(), 9.0 / 16.0 * 0.23 * ofGetWidth() );
-        ofSetColor(255,0,0, (127 - getVal(0)) / 127.0 * 255);
-        ofRect(0.01 * ofGetWidth(), 0.55 * ofGetHeight(), 0.23 * ofGetWidth(), 9.0 / 16.0 * 0.23 * ofGetWidth() );
-
-        ofSetLineWidth(1);
         
         ofPushMatrix();
         ofTranslate(_pos.x, _pos.y);
 
          float maxKnobs;
+
+         ofSetColor(0);
+         yPosMult = 0;
+         xPosMult = 0;
+         coolvetica_.drawString("P." + ofToString(1), 60 * (1 - xPosMult) + 130, (yStartPos - 25) + ySpace*yPosMult);
+
 
          if (_extended) maxKnobs = 36;
          else maxKnobs = 9;
@@ -169,7 +165,7 @@ void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
              ofPushMatrix();
              ofTranslate(_pos.x, _pos.y);
              ofSetColor(0);
-             ofDrawBitmapString("P." + ofToString(i+1), ofPoint(60 * (i - xPosMult) + 130, (yStartPos - 25) + ySpace*yPosMult));
+             coolvetica_.drawString("P." + ofToString(i), 60 * (i - xPosMult) + 130, (yStartPos - 25) + ySpace*yPosMult);
              ofFill();
              ofRect(60 * (i - xPosMult) + 130, (yStartPos - 30) + ySpace*yPosMult - 20, 23, ofMap(-getVal(i),0,127,0,64));
              ofNoFill();
@@ -197,7 +193,7 @@ void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
 
          ofTranslate(_pos.x, _pos.y);
 
-         for (int i = 0; i < 2 * maxKnobs; i++) {
+         for (int i = 2; i < 2 * maxKnobs; i++) {
              if(i > 17) {
                  yPosMult = 2;
                  xPosMult = 18;
@@ -224,9 +220,9 @@ void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
                  ofNoFill();
 
              if(i % 2 == 0) {
-                 ofRect(30 * (i - xPosMult) + 110,  (yStartPos - 30) + ySpace*yPosMult/2 - 84, 14, 14);
+                 ofRect(30 * (i - xPosMult) + 108,  (yStartPos - 30) + ySpace*yPosMult/2 - 84, 16, 16);
              }else{
-                 ofRect(30 * (i-1 - xPosMult) + 110,18 + (yStartPos - 30) + ySpace*yPosMult/2 - 84, 14, 14);
+                 ofRect(30 * (i-1 - xPosMult) + 108, 48 + (yStartPos - 30) + ySpace*yPosMult/2 - 84, 16, 16);
              }
 
 
@@ -234,76 +230,79 @@ void ofxKorgNanoKontrol::showGui(bool _showGui, bool _extended, ofPoint _pos) {
 
          }
 
- //        int yPosAdd = 24;
- //        // Addional Buttons
- //        if(getVal(0,K_TYPE_MENU_BUTTONS) > 0)
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(10, 10, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("prev", 20, yPosAdd);
+         int yPosAdd = 24;
+         // Addional Buttons
+         if(getVal(0,K_TYPE_MENU_BUTTONS) > 0)
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(10, 45, 44, 18);
+         ofSetColor(255);
+         coolvetica_.drawString("prev", 20, yPosAdd + 35);
 
 
- //        if(getVal(1,K_TYPE_MENU_BUTTONS) > 0)
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(63, 10, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("play", 72, yPosAdd);
+         if(getVal(1,K_TYPE_MENU_BUTTONS) > 0)
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(63, 45, 44, 18);
+         ofSetColor(255);
+         coolvetica_.drawString("play", 72, yPosAdd + 35);
 
 
- //        if(getVal(2,K_TYPE_MENU_BUTTONS) > 0)
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(116, 10, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("next", 125, yPosAdd);
+         if(getVal(2,K_TYPE_MENU_BUTTONS) > 0)
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(116, 45, 44, 18);
+         ofSetColor(255);
+         coolvetica_.drawString("next", 125, yPosAdd + 35);
 
- //        if(getVal(3,K_TYPE_MENU_BUTTONS) > 0)
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(10, 33, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("loop", 20, yPosAdd + 23);
+         if(getVal(3,K_TYPE_MENU_BUTTONS) > 0)
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(10, 68, 44, 18);
+         ofSetColor(255);
+         coolvetica_.drawString("loop", 20, yPosAdd + 58);
 
- //        if(getVal(4,K_TYPE_MENU_BUTTONS) > 0)
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(63, 33, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("stop", 72, yPosAdd + 23);
+         if(getVal(4,K_TYPE_MENU_BUTTONS) > 0)
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(63, 68, 44, 18);
+         ofSetColor(255);
+         coolvetica_.drawString("stop", 72, yPosAdd + 58);
 
- //        if(getVal(5,K_TYPE_MENU_BUTTONS) > 0)
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(116, 33, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("rec", 128, yPosAdd + 23);
+         if(getVal(5,K_TYPE_MENU_BUTTONS) > 0)
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(116, 68, 44, 18);
+         ofSetColor(255);
+         coolvetica_.drawString("rec", 128, yPosAdd + 58);
 
- //        /*
- //        if(getVal(6,MENU_BUTTONS))
- //            ofFill();
- //        else
- //            ofNoFill();
- //        ofSetColor(0);
- //        ofRect(186, 10, 50, 20);
- //        ofSetColor(255);
- //        ofDrawBitmapString("scene", 191, yPosAdd);
- //        ofPopMatrix();
- //         */
+         /*
+         if(getVal(6,MENU_BUTTONS))
+             ofFill();
+         else
+             ofNoFill();
+         ofSetColor(0);
+         ofRect(186, 10, 50, 20);
+         ofSetColor(255);
+         coolvetica_.drawString("scene", 191, yPosAdd);
+         ofPopMatrix();
+          */
+
+
      }else{
+
          return;
      }
  }
